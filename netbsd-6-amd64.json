@@ -1,0 +1,70 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<enter><enter>e<enter><enter>dhclient wm0<enter>ftp -o /tmp/i.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-netbsd-6-amd64.sh<enter>sh /tmp/i.sh<enter>reboot<enter>"
+      ],
+      "boot_wait": "60s",
+      "disk_size": 10140,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "NetBSD_64",
+      "http_directory": "http",
+      "iso_checksum": "847e5338c9354dfc12f43160509480724659c5469e53cc03334bb38b3b9393fed8a0d55962c6626f6eb7d569ed4ea8d328a0db4ee2bf992def5eafc6f0c3f834",
+      "iso_checksum_type": "sha512",
+      "iso_urls": [
+        "iso/NetBSD-{{user `release`}}-amd64.iso",
+        "{{user `mirror`}}/NetBSD-{{user `release`}}/iso/NetBSD-{{user `release`}}-amd64.iso"
+      ],
+      "output_directory": "packer-netbsd-{{user `release`}}-amd64{{user `build_suffix`}}-virtualbox",
+      "shutdown_command": "echo vagrant | sudo -S /sbin/poweroff",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-netbsd-{{user `release`}}-amd64"
+    }
+  ],
+  "description": "NetBSD {{user `release`}} amd64",
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "./builds/netbsd-{{user `release`}}-amd64{{user `build_suffix`}}-{{.Provider}}.box",
+      "keep_input_artifact": true
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "PROVISIONER={{user `provisioner`}}",
+	"NBSD_RELEASE={{user `release`}}"
+      ],
+      "execute_command": "echo vagrant | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "scripts": [
+        "scripts/postinstall.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables" : {
+    "build_suffix" : "",
+    "mirror": "http://ftp.netbsd.org/pub/NetBSD",
+    "provisioner" : "chef:puppet",
+    "release" : "6.1.5"
+  }
+}
