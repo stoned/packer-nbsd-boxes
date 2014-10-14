@@ -42,8 +42,15 @@ done
 ( cd $r/dev && sh ./MAKEDEV all )
 
 # fstab
+mkdir $r/kern
+mkdir $r/proc
 echo "/dev/wd0a /    ffs  rw,log 1 1" > $r/etc/fstab
 echo "/dev/wd0b none swap sw,dp  0 0" >> $r/etc/fstab
+echo "/kern /kern kernfs rw 0 0" >> $r/etc/fstab
+echo "/proc /proc procfs rw 0 0" >> $r/etc/fstab
+echo "fdesc /dev fdesc ro,-o=union 0 0" >> $r/etc/fstab
+echo "ptyfs /dev/pts ptyfs rw 0 0" >> $r/etc/fstab
+echo "tmpfs /tmp tmpfs rw,-s96M" >> $r/etc/fstab
 
 # installboot
 chroot $r cp /usr/mdec/boot /boot
