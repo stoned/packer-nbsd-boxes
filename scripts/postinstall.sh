@@ -4,6 +4,14 @@ export PATH
 
 #
 case ":$PROVISIONER:" in
+*:ansible:*)
+  # ansible requires python2, but not much else.
+  pkgin -y install python27
+;;
+esac
+
+#
+case ":$PROVISIONER:" in
 *:chef:*)
   pkgin -y install ruby193-chef
 ;;
