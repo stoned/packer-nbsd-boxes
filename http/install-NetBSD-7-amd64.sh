@@ -90,7 +90,7 @@ mv /tmp/repositories.conf $r/usr/pkg/etc/pkgin/repositories.conf
 chroot $r pkgin -y update
 
 # install some packages for vagrant user
-chroot $r /usr/pkg/bin/pkgin -y install bash zsh sudo wget
+chroot $r /usr/pkg/bin/pkgin -y install bash sudo wget
 
 # vagrant user
 chroot $r useradd -s /usr/pkg/bin/bash -d /home/vagrant -m -g staff -G wheel -p "$passhash" vagrant
