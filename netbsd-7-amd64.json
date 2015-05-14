@@ -1,0 +1,72 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<enter><enter>e<enter><enter>dhcpcd wm0<enter>sleep 2<enter>ftp -o /tmp/i.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-NetBSD-7-amd64.sh<enter>sh /tmp/i.sh<enter>reboot<enter>"
+      ],
+      "boot_wait": "50s",
+      "disk_size": 10140,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "NetBSD_64",
+      "http_directory": "http",
+      "iso_checksum": "e22717652cf22630fd9b38c51bdb6899ea8bc83d1eef0f2c5310d20f49f2dba37343ec08d6d1e0d864baa0acd4677cabd05c48ffba7ce0d8de7c12bc6c3bb981",
+      "iso_checksum_type": "sha512",
+      "iso_urls": [
+        "iso/NetBSD-{{user `release`}}-amd64.iso",
+        "{{user `mirror`}}/NetBSD-{{user `release`}}/iso/NetBSD-{{user `release`}}-amd64.iso",
+        "http://nyftp.netbsd.org/pub/NetBSD-daily/netbsd-7/201505140340Z/images/NetBSD-{{user `release`}}-amd64.iso"
+      ],
+      "output_directory": "packer-netbsd-{{user `release`}}-amd64{{user `build_suffix`}}-virtualbox",
+      "shutdown_command": "echo vagrant | sudo -S /sbin/poweroff",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-netbsd-{{user `release`}}-amd64"
+    }
+  ],
+  "description": "NetBSD {{user `release`}} amd64",
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "./builds/netbsd-{{user `release`}}-amd64{{user `build_suffix`}}-{{.Provider}}.box",
+      "keep_input_artifact": true
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "PROVISIONER={{user `provisioner`}}",
+	"NBSD_RELEASE={{user `release`}}"
+      ],
+      "execute_command": "echo vagrant | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "scripts": [
+        "scripts/postinstall.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables" : {
+    "build_suffix" : "",
+    "mirror": "http://ftp.netbsd.org/pub/NetBSD",
+    "mirror2": "http://nyftp.netbsd.org/pub/NetBSD-daily",
+    "provisioner" : "ansible:chef:puppet",
+    "release" : "7.0_BETA"
+  }
+}
