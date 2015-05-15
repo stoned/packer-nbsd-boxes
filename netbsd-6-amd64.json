@@ -64,7 +64,7 @@
   "variables" : {
     "build_suffix" : "",
     "mirror": "http://ftp.netbsd.org/pub/NetBSD",
-    "provisioner" : "chef:puppet",
+    "provisioner" : "ansible:chef:puppet",
     "release" : "6.1.5"
   }
 }
