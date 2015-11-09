@@ -6,7 +6,7 @@ set -e
 
 #
 r=/targetroot
-release=7.0 # XXX
+release=7.0_2015Q3
 
 # disk partition
 echo '/total sectors:/{' > /tmp/sed.$$
