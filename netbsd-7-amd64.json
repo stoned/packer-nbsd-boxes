@@ -13,8 +13,7 @@
       "iso_checksum_type": "sha512",
       "iso_urls": [
         "iso/NetBSD-{{user `release`}}-amd64.iso",
-        "{{user `mirror`}}/NetBSD-{{user `release`}}/iso/NetBSD-{{user `release`}}-amd64.iso",
-        "http://nyftp.netbsd.org/pub/NetBSD-daily/netbsd-7/201505140340Z/images/NetBSD-{{user `release`}}-amd64.iso"
+        "{{user `mirror`}}/NetBSD-{{user `release`}}/iso/NetBSD-{{user `release`}}-amd64.iso"
       ],
       "output_directory": "packer-netbsd-{{user `release`}}-amd64{{user `build_suffix`}}-virtualbox",
       "shutdown_command": "echo vagrant | sudo -S /sbin/poweroff",
