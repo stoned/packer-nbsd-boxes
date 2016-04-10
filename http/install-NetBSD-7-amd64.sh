@@ -9,12 +9,14 @@ r=/targetroot
 release=7.0 # XXX
 
 # disk partition
-echo '/total sectors:/{' > /tmp/sed.$$
-echo 's/.*sectors: //' >> /tmp/sed.$$
-echo 's/,.*//' >> /tmp/sed.$$
-echo p >> /tmp/sed.$$
-echo q >> /tmp/sed.$$
-echo '}' >> /tmp/sed.$$
+cat <<EOF > /tmp/sed.$$
+/total sectors:/{
+s/.*sectors: //
+s/,.*//
+p
+q
+}
+EOF
 wd_size="$(fdisk wd0d | sed -n -f /tmp/sed.$$)"
 fdisk -i -a -0 -f -u -s 169/63/$(($wd_size - 63)) /dev/rwd0d
 
@@ -45,13 +47,15 @@ done
 # fstab
 mkdir $r/kern
 mkdir $r/proc
-echo "/dev/wd0a /    ffs  rw,log 1 1" > $r/etc/fstab
-echo "/dev/wd0b none swap sw,dp  0 0" >> $r/etc/fstab
-echo "/kern /kern kernfs rw 0 0" >> $r/etc/fstab
-echo "/proc /proc procfs rw 0 0" >> $r/etc/fstab
-echo "fdesc /dev fdesc ro,-o=union 0 0" >> $r/etc/fstab
-echo "ptyfs /dev/pts ptyfs rw 0 0" >> $r/etc/fstab
-echo "tmpfs /tmp tmpfs rw,-s96M" >> $r/etc/fstab
+cat <<EOF > $r/etc/fstab
+/dev/wd0a /    ffs  rw,log 1 1
+/dev/wd0b none swap sw,dp  0 0
+/kern /kern kernfs rw 0 0
+/proc /proc procfs rw 0 0
+fdesc /dev fdesc ro,-o=union 0 0
+ptyfs /dev/pts ptyfs rw 0 0
+tmpfs /tmp tmpfs rw,-s96M
+EOF
 
 # installboot
 chroot $r cp /usr/mdec/boot /boot
@@ -66,12 +70,16 @@ chmod 600 $r/etc/master.passwd
 chroot $r pwd_mkdb -p /etc/master.passwd
 
 # hostname & network config
-echo hostname=vagrant >> $r/etc/rc.conf
-echo ifconfig_wm0=dhcp >> $r/etc/rc.conf
+cat <<EOF >> $r/etc/rc.conf
+hostname=vagrant
+ifconfig_wm0=dhcp
+EOF
 
 # ssh config
-echo 'UseDNS no' >> $r/etc/ssh/sshd_config
-echo 'NoneEnabled yes' >> $r/etc/ssh/sshd_config
+cat <<EOF >> $r/etc/ssh/sshd_config
+UseDNS no
+NoneEnabled yes
+EOF
 echo sshd=YES >> $r/etc/rc.conf
 
 # misc configuration
