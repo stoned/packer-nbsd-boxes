@@ -13,15 +13,13 @@ esac
 #
 case ":$PROVISIONER:" in
 *:chef:*)
-  pkgin -y install ruby193-chef
+  pkgin -y install ruby21-chef
 ;;
 esac
 
 # 
 case ":$PROVISIONER:" in
 *:puppet:*)
-  # we do not install puppet with ruby 2.1.2 (ruby212-puppet package)
-  # as a workaround for https://tickets.puppetlabs.com/browse/PUP-1243
-  pkgin -y install ruby193-puppet
+  pkgin -y install ruby21-puppet
 ;;
 esac
