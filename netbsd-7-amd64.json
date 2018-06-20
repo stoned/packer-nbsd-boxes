@@ -9,7 +9,7 @@
       "guest_additions_mode": "disable",
       "guest_os_type": "NetBSD_64",
       "http_directory": "http",
-      "iso_checksum": "673f31607899be26469d3cee831352b41288799b51c6a08b967207266582ed211104b3f58ba7101fc90de94f6de1dbba603a9dc73e3f33334e6cbff316283357",
+      "iso_checksum": "aaccacbfa3ee5a497170025aed9426de1ef91f8f7ebdaf862bd178c4922a5db1b82171832c916acd7a4e2038dd9ec39ef1061c41d98c5b5af56e3165cc945539",
       "iso_checksum_type": "sha512",
       "iso_urls": [
         "iso/NetBSD-{{user `release`}}-amd64.iso",
@@ -66,6 +66,6 @@
     "mirror": "http://ftp.netbsd.org/pub/NetBSD",
     "mirror2": "http://nyftp.netbsd.org/pub/NetBSD-daily",
     "provisioner" : "ansible:chef:puppet",
-    "release" : "7.0.1"
+    "release" : "7.1.2"
   }
 }
