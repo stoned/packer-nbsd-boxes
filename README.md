@@ -30,11 +30,12 @@ Example with the `netbsd-6-amd64.json` template.
         --> virtualbox-iso: 'virtualbox' provider box: ./builds/netbsd-6.1.5-amd64-virtualbox.box
         $
 
-* The box image is available in the `build/` subdirectory.
+* The box image is available in the `builds/` subdirectory.
 
 ## Available boxes
 
-  * `netbsd-7-amd64.json` : Packer template for NetBSD 7.0 amd64
+  * `netbsd-8-amd64.json` : Packer template for NetBSD 8.0 amd64
+  * `netbsd-7-amd64.json` : Packer template for NetBSD 7.1.2 amd64
   * `netbsd-6-amd64.json` : Packer template for NetBSD 6.1.5 amd64
 
 
