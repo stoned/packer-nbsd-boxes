@@ -34,7 +34,7 @@ Example with the `netbsd-6-amd64.json` template.
 
 ## Available boxes
 
-  * `netbsd-8-amd64.json` : Packer template for NetBSD 8.0 amd64
+  * `netbsd-8-amd64.json` : Packer template for NetBSD 8.1 amd64
   * `netbsd-7-amd64.json` : Packer template for NetBSD 7.1.2 amd64
   * `netbsd-6-amd64.json` : Packer template for NetBSD 6.1.5 amd64
 
